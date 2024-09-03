@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGINX Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007acc;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        nav a.active {
+            color: #005f99;
+            text-decoration: underline;
+        }
+        
+        nav a:hover {
+            color: #005f99;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        main h2 {
+            font-size: 2em;
+            margin-top: 0;
+        }
+        main p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .internal-info {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .internal-info h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+        
+        .internal-info p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+        
+        .status-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            color: white;
+            background-color: #007acc;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .status-button:hover {
+            background-color: #005f99;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the NGINX Server</h1>
+    </header>
+    <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="page1.html">Page 1</a>
+        <a href="page2.html">Page 2</a>
+        <a href="page3.html">Page 3</a>
+        <a href="page4.html">Page 4</a>
+        <a href="page5.html">Page 5</a>
+    </nav>
+    <main>
+        <h2>About This Demo</h2>
+        <p>
+            This demo showcases how NGINX serves content on OpenShift, using different methods of file management and storage. Below is an overview of how three specific pages are handled.
+        </p>
+        <ul style="margin-bottom: 20px;">
+            <li><strong>Page 3:</strong> This page is not part of the original container image and is copied to the container each time the pod starts. Since it is not stored in a PVC, <strong>it will not persist across pod restarts</strong> and needs to be re-copied if the pod is redeployed.</li>
+            <br>
+            <li><strong>Page 4:</strong> Managed via a ConfigMap, this page is mounted to the pod at startup, making it available dynamically. This method allows you to inject content or configurations without modifying the container image.</li>
+            <br>
+            <li><strong>Page 5:</strong> Like Page 3, this page is copied during startup, but to a location backed by a PVC. This ensures that <strong>it persists even if the pod is restarted</strong>.</li>
+        </ul>
+        <p>
+            Feel free to explore the different pages and see how NGINX can serve content dynamically from various sources, including direct container copy, ConfigMaps, and PVCs. This setup highlights the flexibility and power of managing containerized applications in a Kubernetes environment like OpenShift.
+        </p>
+        <div class="internal-info">
+            <h3>Server Information</h3>
+            <p><strong>NGINX Version:</strong> 1.24.0</p>
+            <p>
+                <a href="nginx_status" class="status-button">View NGINX Status</a>
+            </p>
+        </div>
+    </main>    
+    <footer>
+        <p>Powered by NGINX on OpenShift. <a href="https://www.openshift.com/">Learn more</a>.</p>
+    </footer>
+</body>
+</html>

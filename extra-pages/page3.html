@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podman Fun Fact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007acc;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        nav a.active {
+            color: #005f99;
+            text-decoration: underline;
+        }
+        
+        nav a:hover {
+            color: #005f99;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        main h2 {
+            font-size: 2em;
+            margin-top: 0;
+        }
+        main p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Podman Fun Fact</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="page1.html">Page 1</a>
+        <a href="page2.html">Page 2</a>
+        <a href="page3.html" class="active">Page 3</a>
+        <a href="page4.html">Page 4</a>
+        <a href="page5.html">Page 5</a>
+    </nav>
+    <main>
+        <h2>Did You Know?</h2>
+        <p>
+            Podman is a container engine developed by Red Hat as a drop-in replacement for Docker. Unlike Docker, Podman does not require a daemon and can run containers as non-root users, making it a secure and versatile choice for developers working in containerized environments.
+        </p>
+    </main>
+    <footer>
+        <p>Powered by NGINX on OpenShift. <a href="index.html">Go back to the main page</a>.</p>
+    </footer>
+</body>
+</html>
