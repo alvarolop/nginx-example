@@ -1,0 +1,24 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nginx-example
+  labels:
+    app: nginx-example
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/alvarolop/nginx-example.git
+      ref: main
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile  # Path to the Dockerfile in the repo
+  output:
+    to:
+      kind: ImageStreamTag
+      name: nginx-example:latest
+  triggers:
+    - type: ConfigChange
+  runPolicy: Serial
