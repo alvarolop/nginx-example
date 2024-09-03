@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Technology Fun Fact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007acc;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        nav a.active {
+            color: #005f99;
+            text-decoration: underline;
+        }
+        
+        nav a:hover {
+            color: #005f99;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        main h2 {
+            font-size: 2em;
+            margin-top: 0;
+        }
+        main p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Container Technology Fun Fact</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="page1.html">Page 1</a>
+        <a href="page2.html">Page 2</a>
+        <a href="page3.html">Page 3</a>
+        <a href="page4.html" class="active">Page 4</a>
+        <a href="page5.html">Page 5</a>
+    </nav>
+    <main>
+        <h2>Did You Know?</h2>
+        <p>
+            The concept of containers has been around for decades, with its origins dating back to chroot in Unix in 1979. However, it wasn't until Docker was released in 2013 that containers became mainstream. Docker simplified the use of containers by providing an easy-to-use interface and a standardized format for container images, revolutionizing how developers build, ship, and run applications.
+        </p>
+        <p>
+            Building on Docker's groundwork, Red Hat has significantly advanced container technology, integrating it into enterprise environments with robust tools and platforms. Red Hat OpenShift, a leading Kubernetes-based platform, has been pivotal in transforming how businesses deploy and manage containerized applications at scale. Additionally, Red Hat developed Podman as a daemonless alternative to Docker, focusing on security, rootless containers, and Kubernetes integration, further driving innovation in the container ecosystem.
+        </p>        
+    </main>
+    <footer>
+        <p>Powered by NGINX on OpenShift. <a href="index.html">Go back to the main page</a>.</p>
+    </footer>
+</body>
+</html>

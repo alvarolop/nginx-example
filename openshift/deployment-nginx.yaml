@@ -1,0 +1,76 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    app.kubernetes.io/name: nginx
+    app.openshift.io/runtime: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        deployment: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: quay.io/alopezme/nginx-example:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+      # BEGIN Page 4 and 5 Mount
+          volumeMounts:
+            - name: nginx-cm-pages
+              mountPath: /opt/app-root/src/page4.html
+              subPath: page4.html
+            - name: nginx-pvc-pages
+              mountPath: /opt/app-root/src/pvc-pages
+      volumes:
+        - name: nginx-cm-pages
+          configMap:
+            name: nginx-cm-pages
+        - name: nginx-pvc-pages
+          persistentVolumeClaim:
+            claimName: nginx-pages
+      # END Page 4 and 5 Mount
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault

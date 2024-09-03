@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: nginx-example
+
+configMapGenerator:
+  - name: nginx-cm-pages
+    files:
+      - config/page4.html
+    options:
+      disableNameSuffixHash: true
+
+resources:
+  - ns-nginx-example.yaml
+  - deployment-nginx.yaml
+  - svc-nginx.yaml
+  - route-server.yaml
+  - pvc-nginx-pages.yaml
