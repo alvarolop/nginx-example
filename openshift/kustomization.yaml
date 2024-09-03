@@ -22,18 +22,18 @@ resources:
   - bc-nginx-example.yaml
   - is-nginx-example.yaml
 
-patches:
-  - target:
-      kind: Deployment
-      name: nginx  # Name of the deployment you want to patch
-    patch: |  # Inline patch
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: nginx
-      spec:
-        template:
-          spec:
-            containers:
-              - name: nginx
-                image: nginx-example:latest  # Change to use the ImageStreamTag
+# patches:
+#   - target:
+#       kind: Deployment
+#       name: nginx  # Name of the deployment you want to patch
+#     patch: |  # Inline patch
+#       apiVersion: apps/v1
+#       kind: Deployment
+#       metadata:
+#         name: nginx
+#       spec:
+#         template:
+#           spec:
+#             containers:
+#               - name: nginx
+#                 image: nginx-example:latest  # Change to use the ImageStreamTag
