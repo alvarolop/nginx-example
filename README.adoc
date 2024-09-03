@@ -35,6 +35,8 @@ IMPORTANT: This repository is not a production-oriented example. It is just a si
 
 Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and IMAP protocols, with a strong focus on high concurrency, performance and low memory usage. This repository contains a basic example of an NGINX image with persistence.
 
+// Create the Table of contents here
+toc::[]
 
 
 == NGINX container image alternatives
