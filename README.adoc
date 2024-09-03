@@ -1,0 +1,88 @@
+= NGINX Application example
+
+IMPORTANT: This repository is not a production-oriented example. It is just a simple way of showcasing how to use nginx with persistence on OpenShift.
+
+
+Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and IMAP protocols, with a strong focus on high concurrency, performance and low memory usage. This repository contains a basic example of an NGINX image with persistence.
+
+
+
+== NGINX container image alternatives
+
+When selecting an NGINX container image for OpenShift, it's essential to consider compatibility, security, and ease of use within the OpenShift environment. Here are some of the best and most commonly used NGINX container images for OpenShift, along with alternatives:
+
+1. https://hub.docker.com/_/nginx[Official NGINX Image]: This is the official NGINX image maintained by NGINX, Inc. It's widely used and regularly updated with the latest stable releases. However, it may require some customization for OpenShift environments, particularly in terms of user permissions (as OpenShift runs containers with non-root users by default).
+2. https://catalog.redhat.com/software/containers/ubi8/nginx-124/657c10c8e55cb10b6217c5af?image=66c5b48ce505cfb83a966b9d[Red Hat NGINX s2i Image]: These images are specifically built for Red Hat OpenShift and come with pre-configured settings that comply with OpenShift's security policies. They are based on RHEL, ensuring high compatibility with OpenShift.
+3. https://hub.docker.com/r/bitnami/nginx[Bitnami NGINX Image]: Bitnami images are known for their robustness, security, and ease of use. The NGINX image by Bitnami is regularly updated, non-root by default, and provides good compatibility with OpenShift.
+
+You might want to choose a different image depending on your needs and configuration. In this repository we will explore the capabilities of the *Red Hat supported image*.
+
+.What is Source-to-Image?
+====
+Source-to-Image (S2I) is a toolkit and workflow for building reproducible container images from source code. *S2I produces ready-to-run images by injecting source code into a container image* and letting the container prepare that source code for execution. There is more information in the https://github.com/openshift/source-to-image[official repo].
+====
+
+
+
+== Red Hat NGINX s2i Image
+
+In case of Nginx container image, the application source code is typically either static HTML pages or configuration files. To support the Source-to-Image framework, important scripts are included in the builder image:
+
+* The `/usr/libexec/s2i/run` script is set as the default command in the resulting container image (the new image with the application artifacts).
+* The `/usr/libexec/s2i/assemble` script inside the image is run to produce a new image with the application artifacts. The script takes sources of a given application (HTML pages), Nginx configuration files, and places them into appropriate directories inside the image.
+
+To get more information about how this image works and how to customize it the most, you can check the following links:
+
+* https://catalog.redhat.com/software/containers/ubi8/nginx-124/657c10c8e55cb10b6217c5af?image=66c5b48ce505cfb83a966b9d[RH Container Catalog Readme].
+* https://github.com/sclorg/nginx-container/blob/master/1.24/README.md[Source Git Repo] with the s2i scripts.
+* https://docs.openshift.com/container-platform/4.16/openshift_images/using_images/using-s21-images.html[S2i documentation].
+* https://github.com/sclorg/nginx-ex/tree/master[Git repo] with a configuration example.
+
+
+== Testing locally
+
+Source-to-Image (s2i) images are quite special as you cannot run them directly. It is always necessary to build them at least once, so that the s2i scripts organize all the configuration in the correct files. To use the Nginx image in a Dockerfile, first build a new image from the Dockerfile:
+
+[source, bash]
+----
+podman build -t quay.io/alopezme/nginx-example .
+----
+
+Now, you can run the resulting image with the final application:
+
+[source, bash]
+----
+podman run -p 8080:8080 quay.io/alopezme/nginx-example
+----
+
+
+== Deploy it on OpenShift
+
+Instead of building and running the application locally, you can do the same on OpenShift. I have simplified the process using `Kustomize`, so you just need to run the next command. *Please, make sure that you use `-k` for kustomize, instead of `-f`, which is for normal k8s files*.
+
+[source, bash]
+----
+oc apply -k openshift
+----
+
+The previous command will create all the components and deploy the application to OpenShift. You should be able to access it in the following URL:
+
+[source, bash]
+----
+oc get route server -n nginx-example --template='https://{{ .spec.host }}'
+----
+
+If you try the application and check all the tabs, you will see that neither Page3 nor Page5 are accessible. This is because those two are not included in the image or in the ConfigMap, but their are copied after pod startup. You can use the following command to copy them to the pod:
+
+[source, bash]
+----
+oc cp ./extra-pages/page3.html $(oc get pods -l app=nginx -n nginx-example -o jsonpath='{.items[0].metadata.name}'):/opt/app-root/src/ -n nginx-example
+oc cp ./extra-pages/page5.html $(oc get pods -l app=nginx -n nginx-example -o jsonpath='{.items[0].metadata.name}'):/opt/app-root/src/pvc-pages -n nginx-example
+----
+
+Check that just reloading the page, you can access those pages. Great! Now, delete the nginx pod and wait until it is recreated again. Check those pages. You will see that page5 is available, but page3 is not. This is great, you demonstrated the value of Persistence! 
+
+
+== Using a BuildConfig
+
+A build in OpenShift is defined by a BuildConfig. A BuildConfig is just a set of instructions which tell OpenShift how to build a container image. We will use it to avoid building the image locally and pushing it to the container registry.
